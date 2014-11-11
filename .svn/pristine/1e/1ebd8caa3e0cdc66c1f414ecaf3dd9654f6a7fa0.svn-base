@@ -1,0 +1,73 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*-----自动控制配置页面样式-----*/
+
+*{
+	margin:0;
+	padding:0;
+	}
+html,body{
+	width:100%;
+	height:100%;
+	font-family:"宋体";
+	font-size:14px;
+	color:#000;
+	}
+select{
+	font-family:"宋体";
+	font-size:13px;
+	line-height:22px;
+	}
+	
+.row_height{
+  line-height:36px;
+	height:36px;
+	text-indent:10px;
+  }
+	
+.row_space{
+  line-height:5px;
+	height:5px;
+	background:#ccc;
+  }
+
+	
+/*-----add.html-----*/
+
+.add_main{
+	margin:0 auto;
+	border-top:1px solid #ccc;
+	border-left:1px solid #ccc;
+	}
+.add_main td{
+	border-right:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	}
+
+/*-----list.html-----*/
+
+.list_main{
+	margin:0 auto;
+	text-align:center;
+	border-top:1px solid #ccc;
+	border-left:1px solid #ccc;
+	}
+.list_main td{
+	border-right:1px solid #ccc;
+	border-bottom:1px solid #ccc;
+	white-space:nowrap;
+	line-height:36px;
+	height:36px;
+	}
+	
+.title{
+	font-family:"宋体";
+	font-size:13px;
+	font-weight:bold;
+	color:#000;
+	white-space:nowrap;
+	}
+.embedded_tab td{
+	border:none;
+	}

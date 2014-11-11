@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jee="http://www.springframework.org/schema/jee" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd   http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd   http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee-3.0.xsd   http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+
+	<context:property-placeholder location="classpath*:/application.properties" />
+
+	<context:spring-configured />
+
+	<context:component-scan base-package="org.unism" />
+	
+
+	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
+        <property name="driverClassName" value="${db.driverClass}"/>
+        <property name="url" value="${db.url}"/>
+        <property name="username" value="${db.username}"/>
+        <property name="password" value="${db.password}"/>
+		<property name="initialSize" value="20" /><!-- 初始化连接 -->
+  		<property name="maxActive" value="100" /><!-- 最大连接数量 -->
+  		<property name="maxIdle" value="30" /><!-- 最大空闲连接 -->
+  		<property name="minIdle" value="10" /><!-- 最小空闲连接 -->
+  		<property name="validationQuery" value="select * from op_userinfo limit 1" /><!-- 达到 校验连接 testOnBorrow true 连接前校验 -->
+  		 <property name="testOnBorrow" value="true" />
+  		<property name="maxWait" value="1000" /><!-- 超时等待时间（以ms为单位） -->
+		<property name="timeBetweenEvictionRunsMillis" value="3600000" />
+		<property name="minEvictableIdleTimeMillis" value="3600000" />
+    </bean>
+
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean">
+		<property name="dataSource">
+			<ref local="dataSource" />
+		</property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${db.dialect}</prop>
+				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+				<prop key="hibernate.cache.use_second_level_cache">${hibernate.use_second_level_cache}</prop>
+				<prop key="hibernate.cache.provider_class">org.hibernate.cache.EhCacheProvider</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl}</prop>
+			</props>
+		</property>
+		<property name="packagesToScan" value="org.unism.**.domain**" />
+	</bean>
+
+	<bean id="transactionManager" class="org.springframework.orm.hibernate3.HibernateTransactionManager">
+		<property name="sessionFactory" ref="sessionFactory" />
+	</bean>
+
+	<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+
+	<!--
+		邮件发送器 <bean id="mailSender"
+		class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com" /> <property
+		name="username" value="tanyPMS" /> <property name="password"
+		value="tanytany" /> <property name="javaMailProperties"> <props> <prop
+		key="mail.smtp.auth">true</prop> <prop
+		key="mail.smtp.starttls.enable">true</prop> </props> </property>
+		</bean>
+	-->
+	<!--
+		<bean id="taskExecutor"
+		class="org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor">
+		<property name="corePoolSize" value="10"/> <property
+		name="maxPoolSize" value="30"/> </bean>
+	-->
+
+	<bean class="org.wangzz.core.utils.SpringContextHolder" />
+
+	<!-- 
+	<bean id="globalValidator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+ -->
+
+
+	<!-- 任务调度 -->
+	<bean name="养殖池_短信预警Jop" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="pro_FisheriesService" />
+		<property name="targetMethod" value="养殖池_短信预警"/>
+	</bean>
+	<bean name="养殖池_短信重发Jop" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="pro_FisheriesService" />
+		<property name="targetMethod" value="养殖池_短信重发"/>
+	</bean>
+	<bean name="养殖池_短信回复Jop" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="pro_FisheriesService" />
+		<property name="targetMethod" value="养殖池_短信回复"/>
+	</bean>
+	<bean name="养殖池_短信重发2Jop" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="pro_FisheriesService" />
+		<property name="targetMethod" value="养殖池_短信重发2"/>
+	</bean>
+	<!-- 定义触发时间 --> 
+	<bean id="养殖池_短信预警Trigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="养殖池_短信预警Jop"/>
+		<property name="cronExpression" value="0 0/3 * * * ?"/>
+	</bean>
+	<bean id="养殖池_短信重发Trigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="养殖池_短信重发Jop"/>
+		<property name="cronExpression" value="0 0/5 * * * ?"/>
+	</bean>
+	<bean id="养殖池_短信回复Trigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="养殖池_短信回复Jop"/>
+		<property name="cronExpression" value="0/30 * * * * ?"/>
+	</bean>
+	<bean id="养殖池_短信重发2Trigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="养殖池_短信重发2Jop"/>
+		<property name="cronExpression" value="0 0/30 * * * ?"/>
+	</bean>	
+	<bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<property name="triggers">
+			<list>
+			    <!-- 
+				<ref bean="养殖池_短信预警Trigger"/>
+				<ref bean="养殖池_短信重发Trigger"/>
+				<ref bean="养殖池_短信回复Trigger"/>
+				<ref bean="养殖池_短信重发2Trigger"/>
+				<ref bean="forecastTrigger" />0 10 0/1 * * ?
+				 -->
+				<ref bean="FaultTrigger" />
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="forecastTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="qforecastTask" /> 
+      	<property name="cronExpression" value="0 0/2 * * * ?"/> 
+	</bean>
+	<bean name="qforecastTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="forecastTask" />
+		<property name="targetMethod" value="execute"/>
+	</bean>
+	
+	<!-- 故障症状捕获程序,每天的凌晨01:00运行 -->
+	<bean id="FaultTrigger" class="org.springframework.scheduling.quartz.CronTriggerBean">
+		<property name="jobDetail" ref="qfaultTask" /> 
+      	<property name="cronExpression" value="0 0 1 * * ?"/> 
+	</bean>
+	<bean name="qfaultTask" class="org.springframework.scheduling.quartz.MethodInvokingJobDetailFactoryBean">
+		<property name="targetObject" ref="faultTask" />
+		<property name="targetMethod" value="execute"/>
+	</bean>
+
+</beans>

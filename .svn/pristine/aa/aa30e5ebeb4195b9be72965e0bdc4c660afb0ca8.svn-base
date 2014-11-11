@@ -1,0 +1,175 @@
+@charset "gb2312";
+/* | 基础元素风格 | ---------------------------------------------------------------------------  */
+
+body {
+	margin: 0px;
+	padding: 0px;
+	text-align:center;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 12px;
+
+	}
+
+td,input,textarea {font-size:12px;}
+label {margin:0px;padding:0px;}
+
+b, strong {font-weight:bold;}
+
+/* | 自定义 | ---------------------------------------------------------------------------  */
+
+/*index page css -- start */
+.index_bg {
+	background-image: url(../images/login/index_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: center center;background-color: #024602;
+}
+#Layer2 {
+	position:absolute;
+	width:31px;
+	height:29px;
+	z-index:1;
+}
+#Layer3 {
+	position:absolute;
+	left:-377px;
+	top:-157px;
+	width:321px;
+	height:142px;
+	z-index:2;
+}
+#Layer5 {
+	position:absolute;
+	left:-377px;
+	top:113px;
+	width:321px;
+	height:142px;
+	z-index:4;
+}
+
+#Layer6 {
+	position:absolute;
+	left:70px;
+	top:113px;
+	width:321px;
+	height:142px;
+	z-index:5;
+}
+#Layer4 {
+	position:absolute;
+	left:70px;
+	top:-157px;
+	width:321px;
+	height:142px;
+	z-index:3;
+}
+#Layer7 {
+	position:absolute;
+	left:-168px;
+	top:296px;
+	width:350px;
+	height:20px;
+	z-index:6;
+	color:#fff;
+	font-size:12px;
+	text-align:center;
+}
+.button01 {
+	width:120px;
+	height:141px;
+	border:0px;
+	cursor:pointer;
+	border:0px;
+	background-color:transparent;
+
+}
+/*index page css -- end */
+
+/*login page css -- start */
+.loadbn {font-weight:bold;text-align: left;}
+.enter_bg {
+	background-image: url(../images/login/enter_bg.jpg);
+	background-repeat: no-repeat;
+	background-position: center center;background-color: #024602;
+}
+
+.enter_bg1 {
+	background-image: url(../images/login/enter_bg1.jpg);
+	background-repeat: no-repeat;
+	background-position: center center;background-color:#03234b;
+}
+
+.enter_bg2 {
+	background-image: url(../images/login/enter_bg2.jpg);
+	background-repeat: no-repeat;
+	background-position: center center;background-color:#024602;
+}
+
+.enter_bg3 {
+	background-image: url(../images/login/enter_bg3.jpg);
+	background-repeat: no-repeat;
+	background-position: center center;background-color:#024602;
+}
+
+.enter_bg4{
+	background-image: url(../images/login/enter_bg4.jpg);
+	background-repeat: no-repeat;
+	background-position: center center;background-color:#024602;
+}
+
+.center {margin:auto;padding:auto;}
+.bn_bg {
+	background-image: url(../images/login/load_bg.png);
+	background-repeat: no-repeat;
+	width:69px;
+	height:69px;
+	background-color: transparent;
+	border:0px;
+	text-decoration: none;
+	color:#000000;	
+}
+.input_bg {
+	background-image: url(../images/login/input_bg.png);
+	background-repeat: no-repeat;
+	width:150px;
+	height:27px;
+	background-color: transparent;
+	border:0px;
+	text-decoration: none;
+	color:#000000;
+	padding:6px;
+	
+}
+#Layer1 {
+	position:absolute;
+	width:0px;
+	height:0px;
+	z-index:1;
+	visibility: visible;	
+}
+#copyright {
+	position:absolute;
+	left:44px;
+	top:294px;
+	width:252px;
+	height:21px;
+	z-index:2;
+	text-align:right;
+	color:#fff;
+	font-size:12px;
+}
+
+.pix01 {font-size:1px;width:1px;vertical-align:top;}
+.pw_txt {color:#000;font-weight:bold;text-align:right;}
+.user_txt {color:#000;font-weight:bold;text-align:right;}
+#userpw {
+	position:absolute;
+	left:331px;
+	top:14px;
+	width:320px;
+	height:77px;
+	z-index:4;
+
+}
+
+.load_input_td {text-align:center;}
+/*login page css -- end */

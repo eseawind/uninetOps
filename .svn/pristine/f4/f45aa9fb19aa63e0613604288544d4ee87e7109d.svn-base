@@ -1,0 +1,201 @@
+<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<c:set var="ctx" value="${pageContext.request.contextPath }" />
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>    
+    <title>数据汇总</title>
+    
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+	<!--
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	-->
+   	<style type="text/css">
+		table {
+			border-collapse: collapse;
+			border: 2px #bbd1fa solid;
+		}
+		tr{
+		 height:28px;
+		}
+		td {
+			border: 1px #bbd1fa solid;
+			font-size: 12px;	
+			text-align: center;		
+		}	 
+  	</style>
+	<script type="text/javascript" src="${ctx }/js/jquery-1.3.2.min.js"></script>
+	<script type="text/javascript">
+		//响应场景树
+		function echoSceneTree(id,name,no,rank,gtype){
+			var hid_gtype = document.getElementById("hid_gtype");
+			if(hid_gtype.value != gtype){
+				if(gtype == 1){
+					this.location = "${ctx }/op_scene_toDataCollect_0523.action";
+				}else if(gtype == 2){
+					this.location = "${ctx }/op_scene_toDataCollect.action";
+				}else if(gtype == 3){
+					this.location = "${ctx }/op_scene_toDataCollect.action";
+				}else if(gtype == 4){
+					this.location = "${ctx }/op_scene_toDataCollect.action";
+				}else if(gtype == 5){
+					this.location = "${ctx }/op_scene_toDataCollect.action";
+				}else if(gtype == 98){
+					this.location = "${ctx }/op_scene_toDataCollect_0613.action";
+				}else if(gtype == 99){
+					this.location = "${ctx }/op_scene_toDataCollect.action";
+				}else{
+					this.location = "${ctx }/op_scene_toDataCollect.action";
+				}
+			}else{
+				data_collect(id);
+			}
+		}
+	
+		//数据汇总
+		//0531 UP
+		//取 我是都取了，不要算了，不显示了 0531
+		function data_collect(id){
+			var div_content = document.getElementById("div_content");
+			//div_content.innerHTML = "正在加载数据,请等待...";
+			div_content.innerHTML = ".";
+			$.getJSON("${ctx}/op_scene_json_data_collect_0523.action?op_Scene.scene_id="+id,{
+				random:Math.random()
+			},function(scenes){
+				var inner = "";
+				if(scenes.length>0){
+					inner += "<table width=\"100%\">";
+					inner += "<tr bgcolor='#8FABDE'>";
+					inner += "<td width=\"20%\">场景名称</td>";
+					inner += "<td width=\"15%\">采集时间</td>";
+					inner += "<td width=\"10%\">溶解氧<br/>(mg/L)</td>";
+					inner += "<td width=\"10%\">溶解氧最大值<br/>(mg/L)</td>";
+					inner += "<td width=\"10%\">溶解氧最小值<br/>(mg/L)</td>";
+					inner += "<td width=\"10%\">水温<br/>(℃)</td>";
+					//inner += "<td width=\"8%\">水深<br/>(m)</td>";
+					//inner += "<td width=\"8%\">pH</td>";
+					//inner += "<td width=\"8%\">电导率<br/>(ms/cm)</td>";
+					//inner += "<td width=\"8%\">浊度)<br/>(NTU)</td>";
+					//inner += "<td width=\"8%\">叶绿素<br/>(ug/L)</td>";
+					inner += "</tr>";					
+					$.each(scenes,function(i,scene){
+						inner += "<tr>";
+						inner += "<td>"+scene.scene_name+"</td>";
+						inner += "<td>"+scene.time+"</td>";
+						inner += "<td>"+scene.DO10_O+"</td>";
+						inner += "<td>"+scene.DO10_O_MAX+"</td>";
+						inner += "<td>"+scene.DO10_O_MIN+"</td>";
+						inner += "<td>"+scene.DO10_T+"</td>";
+						//inner += "<td width=\"8%\">"+scene.SS_1+"</td>";
+						//inner += "<td width=\"8%\">"+scene.PH_1+"</td>";
+						//inner += "<td width=\"8%\">"+scene.DDL_1+"</td>";
+						//inner += "<td width=\"8%\">"+scene.ZD_1+"</td>";
+						//inner += "<td width=\"8%\">"+scene.YLS_1+"</td>";
+						inner += "</tr>";						
+					})
+					inner += "</table><br/><br/>";
+				}else{//alert(22);
+					inner += "<table width=\"100%\">";
+					inner += "<tr>";
+					inner += "<td width=\"20%\">场景名称</td>";
+					inner += "<td width=\"15%\">采集时间</td>";
+					inner += "<td width=\"10%\">溶解氧<br/>(mg/L)</td>";
+					inner += "<td width=\"10%\">溶解氧最大值<br/>(mg/L)</td>";
+					inner += "<td width=\"10%\">溶解氧最小值<br/>(mg/L)</td>";
+					inner += "<td width=\"10%\">水温<br/>(℃)</td>";
+					//inner += "<td width=\"8%\">水深<br/>(m)</td>";
+					//inner += "<td width=\"8%\">pH</td>";
+					//inner += "<td width=\"8%\">电导率<br/>(ms/cm)</td>";
+					//inner += "<td width=\"8%\">浊度<br/>(NTU)</td>";
+					//inner += "<td width=\"8%\">叶绿素<br/>(ug/L)</td>";
+					inner += "</tr>";
+					inner += "<tr>";
+					inner += "<td>没有找到指定的数据</td>";
+					inner += "<td>&nbsp;</td>";
+					inner += "<td>&nbsp;</td>";
+					inner += "<td>&nbsp;</td>";
+					inner += "<td>&nbsp;</td>";
+					inner += "<td>&nbsp;</td>";
+					//inner += "<td width=\"8%\">&nbsp;</td>";
+					//inner += "<td width=\"8%\">&nbsp;</td>";
+					//inner += "<td width=\"8%\">&nbsp;</td>";
+					//inner += "<td width=\"8%\">&nbsp;</td>";
+					//inner += "<td width=\"8%\">&nbsp;</td>";
+					inner += "</tr>";
+					inner += "</table><br/><br/>";
+				}
+				//alert(inner);
+				div_content.innerHTML = inner;
+			});	
+		}
+	</script>
+  </head>  
+  <body style="font-size:12px;width:100%;height:100%;overflow: auto;padding: 10px;">
+		<input id="hid_gtype" type="hidden" value="1">
+		<div id="div_content">			
+			<!--0531注 table width="992">
+				<tr>
+					<td width="20%">场景名称</td>
+					<td width="20%">采集时间</td>
+					<td width="8%">溶解氧<br/>(mg/L)</td>
+					<td width="8%">水温<br/>(℃)</td>
+					<td width="8%">水深<br/>(m)</td>
+					<td width="8%">pH</td>
+					<td width="8%">电导率<br/>(ms/cm)</td>
+					<td width="8%">浊度<br/>(NTU)</td>
+					<td width="8%">叶绿素<br/>(ug/L)</td>
+				</tr>
+				<tr>
+					<td width="20%">请选择场景...</td>
+					<td width="20%">&nbsp;</td>
+					<td width="8%">&nbsp;</td>
+					<td width="8%">&nbsp;</td>
+					<td width="8%">&nbsp;</td>
+					<td width="8%">&nbsp;</td>
+					<td width="8%">&nbsp;</td>
+					<td width="8%">&nbsp;</td>
+					<td width="8%">&nbsp;</td>
+				</tr>
+			</table -->
+			<!-- 0531 UP BEGIN-->
+			<table width="100%">
+				<tr>
+					<td width="20%">场景名称</td>
+					<td width="15%">采集时间</td>
+					<td width="10%">溶解氧<br/>(mg/L)</td>
+					<td width="10%">溶解氧最大值<br/>(mg/L)</td>
+					<td width="10%">溶解氧最小值<br/>(mg/L)</td>
+					<td width="10%">水温<br/>(℃)</td>
+				</tr>
+				<tr>
+					<td>请选择场景...</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+					<td>&nbsp;</td>
+				</tr>
+			</table>
+			<!-- 0531 UP END-->
+			<br/><br/>
+		</div>
+		<script type="text/javascript">
+			//默认加载
+			if(window.parent.right.scene_tree.selectedNode!=null){
+				var curr_node_id = this.parent.right.scene_tree.aNodes[window.parent.right.scene_tree.selectedNode].id;
+				var scene_id = curr_node_id.substr(2);
+				//alert(scene_id);
+				$.getJSON("${ctx}/op_scene_json_findById.action?op_Scene.scene_id="+scene_id,{
+					random:Math.random()
+				},function(op_Scene){
+					echoSceneTree(op_Scene.scene_id,op_Scene.scene_name,op_Scene.scene_no,op_Scene.scene_rank,op_Scene.scene_gtype);
+				});		
+			}
+		</script>
+  </body>
+</html>

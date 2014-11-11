@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../config/ehcache.xsd">
+	
+	<diskStore path="java.io.tmpdir/hibernate/unismOps" />
+	<!--
+		DefaultCache setting.
+		Modify ehcache-safe.xml for timeToIdleSeconds,timeToLiveSecond,diskExpiryThreadIntervalSeconds.
+		Use ehcache-safe.xml default for maxElementsInMemory,maxElementsOnDisk,overflowToDisk,eternal.
+		Use ehcache default for memoryStoreEvictionPolicy,diskPersistent.
+	-->
+	<defaultCache maxElementsInMemory="10000" overflowToDisk="true" eternal="false"
+		memoryStoreEvictionPolicy="LRU" maxElementsOnDisk="10000000" diskExpiryThreadIntervalSeconds="600"
+		timeToIdleSeconds="3600" timeToLiveSeconds="100000" diskPersistent="false" />
+
+
+	<!-- Special objects setting. -->
+	<cache name="org.unism.gm.domain.Gm_Channel" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.gm.domain.Gm_DevCtrl" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.gm.domain.Gm_Device" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.gm.domain.Gm_DevNet" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.op.domain.Op_Areas" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.op.domain.Op_ChannelType" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.op.domain.Op_ChtypeOperate" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.op.domain.Op_DevCtrlType" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.op.domain.Op_PlantformUser" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.op.domain.Op_RoleInfo" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.op.domain.Op_RoleRegith" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.op.domain.Op_Scene" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.op.domain.Op_Supplier" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.op.domain.Op_SysFun" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.op.domain.Op_UserInfo_Scene" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+	<cache name="org.unism.op.domain.Op_UserInfo" maxElementsInMemory="500" overflowToDisk="true"
+		eternal="true">
+	</cache>
+</ehcache>

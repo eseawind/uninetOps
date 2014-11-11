@@ -1,0 +1,35 @@
+/* | table的样式 | --------------------------------------------------------------------------- */
+table {
+	 border-top:#3175B9 1px solid;
+	 border-left: #3175B9 1px solid;
+	 border-collapse: collapse;
+	 text-align:center;
+	 font-family:"宋体";
+	 height:25;
+	 }
+	
+td {
+	 border-right: #3175B9 1px solid;
+	 border-bottom: #3175B9 1px solid;
+	}
+th { background:#8FABDE;
+	 height:30;
+	 font-family:"宋体";
+	 color:#FFFFFF;
+	 background-repeat:repeat-x;
+	 border-right: #3175B9 1px solid;
+	 border-bottom: #3175B9 1px solid;
+	}
+
+/* | 常用链接风格 | ---------------------------------------------------------------------------  */
+
+a {color:#33FFCC;}
+a:visited {
+	color: #333333;
+	text-decoration: underline;
+}
+a:hover {
+	color: #FF6600;
+	text-decoration: underline;
+}
+

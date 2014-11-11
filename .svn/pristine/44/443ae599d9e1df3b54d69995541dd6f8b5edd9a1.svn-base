@@ -1,0 +1,46 @@
+body {
+	color: #000000;
+	font-family: verdana, arial, helvetica, sans-serif;
+	font-size: 12px;
+	margin: 0px;
+	padding: 0px;
+	text-align:left;
+}
+.table{
+	margin-top: 160px;
+}
+.table tr{
+	text-align:center;
+}
+.text{
+	width: 120px;
+	border:1px solid #0086D2;	
+}
+.butten1{
+	width: 70px;
+	background-color:Transparent;
+	background-image: url("../images/button.jpg");	
+	border:0px solid #7CBCEB;
+	height:24px;	
+	text-align:center;	
+}
+.senfe1 {	
+	border-top: #61CF4E 1px solid;
+ 	border-left: #61CF4E 1px solid;	
+ 	margin-top:10px;
+}
+.senfe1 td {
+ 	padding: 2px;
+ 	border-right: #61CF4E 1px solid;
+ 	border-bottom: #61CF4E 1px solid;
+ 	font-size: 12px;
+}
+.senfe1 a  {
+	color:#000000;text-decoration:none;
+}
+.list_head {
+	background-image: url("../images/list_bg4.jpg");	
+	background-repeat: repeat-x;
+	height: 24px;
+	text-align:center;
+}

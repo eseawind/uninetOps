@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE struts PUBLIC "-//Apache Software Foundation//DTD Struts Configuration 2.1//EN"
+        "http://struts.apache.org/dtds/struts-2.1.dtd">
+
+<struts>
+	<constant name="struts.locale" value="zh_CN" />
+	<constant name="struts.i18n.encoding" value="UTF-8" />
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.objectFactory.spring.autoWire" value="name|type|auto|constructor" />
+	<constant name="struts.configuration.xml.reload" value="true" />
+	<constant name="struts.action.extension" value="action" />
+	<constant name="struts.multipart.maxSize" value="10701096"/>
+	<!-- 限定上传文件最大大小4M,struts2默认maxSize为2M -->  
+    <constant name="struts.multipart.maxSize" value="4194304"></constant>  
+    <!-- 指定上传文件时临时文件的存放路径,设为"/tempUpload"将在 项目所在盘下创建文件夹tempUpload-->  
+    <constant name="struts.multipart.saveDir" value="/tempUpload"></constant>
+
+	<package name="default" extends="struts-default" >
+		<interceptors>
+			<interceptor name="sessionout" class="org.unism.util.AuthenticationInterceptor"></interceptor>
+			<interceptor-stack name="defaultInterceptor" >
+				<interceptor-ref name="sessionout" />
+				<interceptor-ref name="store">
+					<param name="operationMode">AUTOMATIC</param>
+				</interceptor-ref>
+				<interceptor-ref name="paramsPrepareParamsStack" />
+			</interceptor-stack>
+			<interceptor-stack name="loginInterceptor" >
+				<interceptor-ref name="store">
+					<param name="operationMode">AUTOMATIC</param>
+				</interceptor-ref>
+				<interceptor-ref name="paramsPrepareParamsStack" />
+			</interceptor-stack>
+		</interceptors>
+		<default-interceptor-ref name="defaultInterceptor" /> 
+		
+		<global-results>
+			<result name="login">loginNew.jsp</result>
+		</global-results>
+		
+		<action name="login_*" method="{1}" class="org.unism.web.action.LoginAction">
+        	<result name="success">/main/main-new.jsp</result>
+        	<interceptor-ref name="loginInterceptor" />
+        </action>
+		
+		<action name="test_*" method="{1}" class="org.unism.web.action.TestAction">
+			<result name="success">/index.jsp</result>
+			<result name="list">/index.jsp</result>
+			<result name="add">/index.jsp</result>
+		</action>
+		<!-- Liu_ChangLong -->
+		<action name="Op_UserInfo_*" method="{1}" class="org.unism.op.action.Op_UserInfoAction">
+			<result name="success">/index.jsp</result>			
+			<result name="list">/user/showUser.jsp</result>
+			<result name="page">/user/page.jsp</result>			
+			<result name="add">/user/add.jsp</result>
+			<result name="edit">/user/editUser.jsp</result>		
+			<result name="editPwd">/user/editPwd.jsp</result>	
+			<result name="operationResult">/operationResult.jsp</result>
+			<result name="ok" type="redirectAction">/Op_UserInfo_findAll</result>
+		</action>		
+		<action name="Op_RoleInfo_*" method="{1}" class="org.unism.op.action.Op_RoleInfoAction">
+			<result name="success">/index.jsp</result>
+			<result name="list">/op_roleinfo/show.jsp</result>
+			<result name="add">/op_roleinfo/add.jsp</result>
+			<result name="edit">/op_roleinfo/edit.jsp</result>
+			<result name="toRoleRegith">/op_roleregith/Setpermissions.jsp</result>
+			<result name="operationResult">/operationResult.jsp</result>
+			<result name="ok" type="redirectAction">/Op_RoleInfo_findAll</result>	
+		</action>	
+		<action name="Op_Supplier_*" method="{1}" class="org.unism.op.action.Op_SupplierAction">
+			<result name="success">/index.jsp</result>
+			<result name="list">/op_supplier/show.jsp</result>
+			<result name="add">/op_supplier/add.jsp</result>
+			<result name="edit">/op_supplier/edit.jsp</result>
+			<result name="operationResult">/operationResult.jsp</result>
+			<result name="ok" type="redirectAction">/Op_Supplier_findAll</result>	
+		</action>
+		<action name="Op_PlantformUser_*" method="{1}" class="org.unism.op.action.Op_PlantformUserAction">
+			<result name="success">/index.jsp</result>
+			<result name="list">/op_plantformuser/show.jsp</result>
+			<result name="add">/op_plantformuser/add.jsp</result>
+			<result name="edit">/op_plantformuser/edit.jsp</result>
+			<result name="operationResult">/operationResult.jsp</result>
+			<result name="redirect" type="redirectAction">/Op_PlantformUser_findAll?errMsg=${errMsg}</result>	
+		</action>	
+		<action name="Gm_DevChannel_*" method="{1}" class="org.unism.gm.action.Gm_DevChannelAction">
+			<result name="success">/index.jsp</result>
+			<result name="list">/gm_devchannel/show.jsp</result>
+			<result name="manage">/gm_devchannel/manage.jsp</result>
+			<result name="add">/gm_devchannel/add.jsp</result>
+			<result name="edit">/gm_devchannel/edit.jsp</result>
+			<result name="operationResult">/operationResult.jsp</result>	
+		</action>
+		<action name="Op_ChannelType_*" method="{1}" class="org.unism.op.action.Op_ChannelTypeAction">
+		
+			<!-- 配置fileUpload拦截器 -->  
+            <interceptor-ref name="fileUpload">  
+                <!-- 配置允许上传的文件类型-->  
+                <param name="allowedTypes">image/x-ms-bmp,image/jpeg,image/gif,image/png,image/x-png,application/excel,application/vnd.ms-excel</param>   
+                <!-- 配置允许上传的文件大小 -->  
+                <param name="maximumSize">2048000</param>  
+            </interceptor-ref>  
+            <interceptor-ref name="defaultStack"></interceptor-ref>  
+            <!-- 配置上传文件的保存的相对路径 -->  
+            <param name="savePath">/typeImg</param>  
+		
+			<result name="success">/index.jsp</result>
+			<result name="list">/op_channeltype/show.jsp</result>
+			<result name="page">/op_channeltype/page.jsp</result>
+			<result name="add">/op_channeltype/add.jsp</result>
+			<result name="edit">/op_channeltype/edit.jsp</result>
+			<result name="operationResult">/operationResult.jsp</result>
+			<result name="ok" type="redirectAction">/Op_ChannelType_findAll</result>	
+		</action>
+		<action name="Gm_DevCtrl_*" method="{1}" class="org.unism.gm.action.Gm_DevCtrlAction">
+			<result name="success" type="redirectAction">Gm_DevCtrl_findAll</result>
+			<result name="list">/gm_devctrl/show.jsp</result>
+			<result name="page">/gm_devctrl/page.jsp</result>	
+			<result name="add">/gm_devctrl/add.jsp</result>
+			<result name="edit">/gm_devctrl/edit.jsp</result>
+			<result name="operationResult">/operationResult.jsp</result>	
+		</action>
+
+		<action name="Gm_Channel_*" method="{1}" class="org.unism.gm.action.Gm_ChannelAction">
+			<result name="success">/index.jsp</result>
+			<result name="list">/gm_channel/show.jsp</result>
+			<result name="page">/gm_channel/page.jsp</result>
+			<result name="add">/gm_channel/add.jsp</result>
+			<result name="edit">/gm_channel/edit.jsp</result>
+			<result name="devFault_showChannel">/gm_devFault/devFault_showChannel.jsp</result>
+			<result name="operationResult" type="redirect">
+				<param name="location">
+					/Gm_Channel_findAll.action
+				</param>
+				<param name="encode">true</param>
+			</result>
+			<result name="batchUpdateChannel" >/batchUpdateChannel/batchUpdateChannel.jsp</result>				
+		</action>
+		<action name="Op_DevCtrlType_*" method="{1}" class="org.unism.op.action.Op_DevCtrlTypeAction">
+			<result name="success">/index.jsp</result>
+			<result name="list">/op_devctrltype/show.jsp</result>
+			<result name="page">/op_devctrltype/page.jsp</result>
+			<result name="add">/op_devctrltype/add.jsp</result>
+			<result name="edit">/op_devctrltype/edit.jsp</result>
+			<result name="ok" type="redirectAction" >/Op_DevCtrlType_findAll</result>
+			<result name="operationResult">/operationResult.jsp</result>	
+		</action>
+		<action name="Op_RoleRegith_*" method="{1}" class="org.unism.op.action.Op_RoleRegithAction">
+			<result name="success">/index.jsp</result>
+			<result name="permission">/op_roleregith/Setpermissions.jsp</result>			
+			<result name="operationResult">/operationResult.jsp</result>
+			<result name="ok" type="redirectAction">/Op_RoleRegith_permission?post=0</result>
+		</action>
+		<!-- Wang_Yuliang -->
+		<action name="op_scene_*" method="{1}" class="org.unism.op.action.Op_SceneAction">
+			<result name="page">/op_scene/page.jsp</result>
+			<result name="save">/op_scene/save.jsp</result>
+			<result name="save_0714">/op_scene/save_0714.jsp</result>
+			<result name="edit">/op_scene/edit.jsp</result>
+			<result name="edit_0714">/op_scene/edit_0714.jsp</result>
+			<result name="addChild">/op_scene/addChild.jsp</result>
+			<result name="deleteChild">/op_scene/deleteChild.jsp</result>
+			<result name="operationResult" type="redirect">
+				<param name="location">
+					/op_scene_page.action?page.pageNo=${page.pageNo}&amp;page.pageSize=${page.pageSize}&amp;scene_pid=${scene_pid}&amp;hid_condition=${hid_condition}&amp;hid_value=${hid_value}
+				</param>
+				<param name="encode">true</param>					
+			</result>			
+			<!--  据魏小华 0615需求 此标记弃用 result name="scene_so_0518">/temp/scene_so_0518.jsp</result-->
+			<result name="scene_so_0531">/temp/scene_so_0531.jsp</result>	
+			<result name="scene_so_0616">/temp/scene_so_0616.jsp</result>	
+			<result name="scene_so_0715">/temp/scene_so_0715.jsp</result>		
+			<result name="data_collect_0523">/temp/data_collect_0523.jsp</result>	
+			<result name="data_collect_0613">/temp/data_collect_0613.jsp</result>	
+			<result name="data_collect">/temp/data_collect.jsp</result>
+		</action>		
+		<action name="gm_device_*" method="{1}" class="org.unism.gm.action.Gm_DeviceAction">
+			<result name="page">/gm_device/page.jsp</result>
+			<result name="save">/gm_device/save.jsp</result>
+			<result name="save_0715">/gm_device/save_0715.jsp</result>
+			<result name="edit">/gm_device/edit.jsp</result>
+			<result name="edit_0715">/gm_device/edit_0715.jsp</result>
+			<result name="operationResult" type="redirect">
+				<param name="location">
+					/gm_device_page.action?page.pageNo=${page.pageNo}&amp;page.pageSize=${page.pageSize}&amp;scene_id=${scene_id}&amp;hid_condition=${hid_condition}&amp;hid_value=${hid_value}
+				</param>
+				<param name="encode">true</param>	
+			</result>
+			<result name="manage">/gm_device/manage.jsp</result>
+		</action>
+		<action name="gm_devnet_*" method="{1}" class="org.unism.gm.action.Gm_DevNetAction">
+			<result name="page">/gm_devnet/page.jsp</result>
+			<result name="save">/gm_devnet/save.jsp</result>
+			<result name="save_0716">/gm_devnet/save_0716.jsp</result>
+			<result name="edit">/gm_devnet/edit.jsp</result>
+			<result name="edit_0716">/gm_devnet/edit_0716.jsp</result>
+			<result name="addChild">/gm_devnet/addChild.jsp</result>
+			<result name="deleteChild">/gm_devnet/deleteChild.jsp</result>
+			<result name="operationResult" type="redirect">
+				<param name="location">
+					/gm_devnet_page.action?page.pageNo=${page.pageNo}&amp;page.pageSize=${page.pageSize}&amp;scene_id=${scene_id}&amp;hid_condition=${hid_condition}&amp;hid_value=${hid_value}
+				</param>
+				<param name="encode">true</param>
+			</result>
+		</action>
+		<action name="op_sysfun_*" method="{1}" class="org.unism.op.action.Op_SysFunAction">
+			<result name="main">/main/main.jsp</result>
+			<result name="operationResult">/operationResult.jsp</result>
+			<result name="sysfunlist">/op_sysfun/sysfunList.jsp</result>
+			<result name="add">/op_sysfun/add.jsp</result>
+			<result name="edit">/op_sysfun/edit.jsp</result>
+			<result name="ok" type="redirectAction">/op_sysfun_findSysfunAll</result>
+		</action>
+		<action name="op_areas_*" method="{1}" class="org.unism.op.action.Op_AreasAction">
+		</action>
+		<action name="home_*" method="{1}" class="org.unism.cau.action.HomeAction">
+			<result name="operationResult">/operationResult.jsp</result>
+			<result name="home">/excel/home.jsp</result>
+		</action>
+		<action name="project_*" method="{1}" class="org.unism.cau.action.ProjectAction">
+			<result name="operationResult">/operationResult.jsp</result>
+			<result name="project">/excel/project.jsp</result>
+		</action>
+		<action name="gm_historydata_*" method="{1}" class="org.unism.gm.action.Gm_HistorydataAction">
+			<result name="operationResult">/operationResult.jsp</result>
+			<!-- 不在使用 王雨良 0601 UP result name="charts">/op_check/charts.jsp</result -->
+			<!-- 不在使用 王雨良 0609 UP result name="charts_0601">/temp/charts_0601.jsp</result -->
+			<result name="charts_0609">/temp/charts_0609.jsp</result>
+			<result name="toCharts_run">/gm_check/toCharts_run.jsp</result>
+			<result name="toCharts_0601_run">/gm_check/dataquery_run.jsp</result>
+			<!-- 不在使用 王雨良 0601 UP result name="dataquery">/op_check/dataquery.jsp</result -->
+			<result name="dataquery_0601">/temp/dataquery_0601.jsp</result>
+			<result name="excel" type="stream">   
+	    		<param name="contentType">application/vnd.ms-excel</param> 
+				<param name="inputName">excelStream</param> 
+				<param name="bufferSize">1024</param>   
+            </result>
+            <result name="historydata">/gm_historydata/findHistorydata.jsp</result>
+            <result name="show">/gm_historydata/showHistorydata.jsp</result>
+            <result name="toDataAnalysis">/dataAnalysis/dataAnalysis.jsp</result>
+            <result name="historydataRevise" >/historydataRevise/historydataRevise.jsp</result>
+            <result name="toCharts" >/gm_check/charts.jsp</result>
+            <result name="toTestCharts">/testCharts/charts.jsp</result>
+		</action>
+		<action name="gm_latestdata_*" method="{1}" class="org.unism.gm.action.Gm_LatestdataAction">
+			<result name="operationResult">/operationResult.jsp</result>
+			<result name="toLatestdata" >/gm_check/latestdata.jsp</result>
+		</action>
+		<action name="fisherirs_*" method="{1}" class="org.unism.pro.action.Pro_FisheriesAction">
+			<result name="edit">/pro_fisheries/edit.jsp</result>
+			<result name="list">/pro_fisheries/list.jsp</result>
+			<result name="success" type="redirectAction">fisherirs_list</result>
+		</action>
+		<action name="gm_devctrloperate_*" method="{1}" class="org.unism.gm.action.Gm_DevCtrlOperateAction">
+			<result name="operationResult">/operationResult.jsp</result>
+		</action>
+		<action name="projectExcel_*" method="{1}" class="org.unism.web.action.ImportAction">  
+			<result name="import">/import/import.jsp</result>  
+			<result name="importError">/import/error.jsp</result>  
+            <result name="success">/import/success.jsp</result>
+        </action>   
+        <action name="Pro_Fisheries_*" method="{1}" class="org.unism.pro.action.Pro_FisheriesAction">
+        	<result name="map">/map/map.jsp</result>
+        </action>
+        <action name="op_userinfo_scene_*" method="{1}" class="org.unism.op.action.Op_UserInfo_SceneAction">
+        	<result name="manage">/op_userinfo_scene/manage.jsp</result>
+        </action>
+        <action name="gm_devsts_*" method="{1}" class="org.unism.gm.action.Gm_DevstsAction">
+        	<result name="operationResult">/operationResult.jsp</result>
+        	<result name="gm_devsts">/gm_check/gm_devsts.jsp</result>
+        	<result name="extform">/gm_check/gm_devsts_extform.jsp</result>
+        	<result name="gm_devsts_worksts">/gm_check/gm_devsts_worksts.jsp</result>
+        	<result name="devState" >/gm_check/gm_devState.jsp</result>
+        </action>
+        <action name="gm_devstshis_*" method="{1}" class="org.unism.gm.action.Gm_DevstsHisAction">
+        	<result name="page">/gm_devstshis/page.jsp</result>
+        </action>
+        <action name="op_chtypeoperate_*" method="{1}" class="org.unism.op.action.Op_ChtypeOperateAction">
+       	 	<result name="page">/op_chtypeoperate/page.jsp</result>
+       	 	<result name="save">/op_chtypeoperate/save.jsp</result>
+       	 	<result name="edit">/op_chtypeoperate/edit.jsp</result>
+        	<result name="data_collect">/gm_check/data_collect.jsp</result>
+        	
+        	<!--原数据汇总页面 <result name="data_collect_0708">/gm_check/data_collect_0708.jsp</result> -->
+        	<result name="data_collect_0708">/gm_check/dataCollect.jsp</result>
+        	<result name="operationResult" type="redirect">
+				<param name="location">
+					/op_chtypeoperate_page.action?page.pageNo=${page.pageNo}&amp;page.pageSize=${page.pageSize}&amp;hid_condition=${hid_condition}&amp;hid_value=${hid_value}
+				</param>
+				<param name="encode">true</param>
+			</result>
+        </action>
+        <action name="Gm_DevFault_*" method="{1}" class="org.unism.gm.action.Gm_DevFaultAction">
+        	<result name="gm_devFault">/gm_devFault/devFault.jsp</result>
+        	<result name="gm_devFaultType">/gm_devFault/devFaultType.jsp</result>        	            
+        	<result name="reportDataStatic">/gm_devFault/reportDataStatic.jsp</result>
+        	<result name="edit">/gm_devFault/editDevFault.jsp</result>
+        	<result name="success" type="redirectAction">/Gm_DevFault_findAllDevFault</result>
+        </action>
+        <action name="gm_devctrloperatehistory_*" method="{1}" class="org.unism.gm.action.Gm_DevCtrlOperateHistoryAction">
+        	<result name="page">/gm_devCtrlOperateHistory/page.jsp</result>
+        </action>
+        <action name="gm_devctrlstshistory_*" method="{1}" class="org.unism.gm.action.Gm_DevCtrlStsHistoryAction">
+        	<result name="page">/gm_devCtrlStsHistory/page.jsp</result>
+        </action>
+        <action name="devSetup_*" method="{1}" class="org.unism.gm.action.DevSetupAction">
+        	<result name="list">/devSetup/list.jsp</result>
+        	<result name="show">/devSetup/show.jsp</result>
+        	<result name="save">/devSetup/save.jsp</result>
+        	<result name="loadTemplate">/devSetup/loadTemplate.jsp</result>
+        	<result name="loadSet">/devSetup/loadSet.jsp</result>
+        	<result name="tianjiawangluojiedianxinxi">/devSetup/tianjiawangluojiedianxinxi.jsp</result>
+        	<result name="bianjiwangluojiedianxinxi">/devSetup/bianjiwangluojiedianxinxi.jsp</result>
+        	<result name="operationResult" type="redirect">
+				<param name="location">
+					/devSetup_list.action
+				</param>
+				<param name="encode">true</param>	
+			</result>
+        </action>
+        <action name="Gm_DevCtrlSts_*" method="{1}" class="org.unism.gm.action.Gm_DevCtrlStsAction">
+        	<result name="page">/gm_DevCtrlSts/list.jsp</result>
+        </action>
+        
+        <action name="forecast_*" method="{1}" class="org.unism.pro.action.ForecastAction">
+        </action>
+        
+         <action name="tblReceive_*" method="{1}" class="org.unism.phone.action.TblReceiveAction">
+        	<result name="tblReceive">/dreamsend/tblReceive.jsp</result>
+        </action>
+        <action name="tblSendSMS_*" method="{1}" class="org.unism.phone.action.TblSendSMS">
+        	<result name="tblSendSMS">/dreamsend/tblSendSMS.jsp</result>
+        </action>
+        <action name="systemInfo_*" method="{1}" class="org.unism.op.action.SystemInfoAction">
+        	<result name="show">/systemInfo/show.jsp</result>
+        	<result name="success" type="redirectAction">systemInfo_show</result>
+        </action>
+        <action name="op_led_scene_*" method="{1}" class="org.unism.op.action.Op_led_sceneAction">
+			<result name="page">/op_led_scene/page.jsp</result>
+			<result name="save">/op_led_scene/save.jsp</result>
+			<result name="edit">/op_led_scene/edit.jsp</result>
+			<result name="operationResult" type="redirect">
+				<param name="location">
+					/op_led_scene_page.action?page.pageNo=${page.pageNo}&amp;page.pageSize=${page.pageSize}&amp;hid_condition=${hid_condition}&amp;hid_value=${hid_value}
+				</param>
+				<param name="encode">true</param>								
+			</result>	
+		</action>
+        <action name="op_led_*" method="{1}" class="org.unism.op.action.Op_ledAction">
+			<result name="page">/op_led/page.jsp</result>
+			<result name="save">/op_led/save.jsp</result>
+			<result name="edit">/op_led/edit.jsp</result>
+			<result name="operationResult" type="redirect">
+				<param name="location">
+					/op_led_page.action?page.pageNo=${page.pageNo}&amp;page.pageSize=${page.pageSize}&amp;hid_condition=${hid_condition}&amp;hid_value=${hid_value}
+				</param>
+				<param name="encode">true</param>								
+			</result>	
+		</action>
+		<action name="ImageExport_*" method="{1}" class="org.unism.web.action.ImageExportAction" >
+		</action>
+		<action name="Op_AlarmConfig_*" method="{1}" class="org.unism.op.action.Op_AlarmConfigAction" >
+			<result name="config" >/alarmconfig/alarmconfig.jsp</result>
+		</action>
+		<action name="Pro_FaultTaskAction_*" method="{1}" class="org.unism.pro.action.Pro_FaultTaskAction">
+			<result name="faultTable">/gm_devFault/catchedFault.jsp</result>
+		</action>
+		<action name="autoCtrlConfig_*" method="{1}" class="org.unism.op.action.AutoCtrlConfigAction">
+			<result name="list">/autoCtrlConfig/list.jsp</result>
+			<result name="add">/autoCtrlConfig/add.jsp</result>
+			<result name="edit">/autoCtrlConfig/edit.jsp</result>
+			<result name="success" type="redirectAction">/autoCtrlConfig_list</result>
+		</action>
+	</package>	
+</struts>
+
+
